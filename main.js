@@ -18,7 +18,7 @@ document.addEventListener("keydown", (event) => {
 // VARIABLES
 // ================================================================================
 
-// ---- DOM ELEMENT REFERENCES ----
+// ================================================ DOM ELEMENT REFERENCES ================================================
 
 // Container elements
 const bodyCon = document.body;
@@ -70,7 +70,7 @@ const leaderboardBtn = document.getElementById("leaderboard-btn");
 // Game grid element
 const grid = document.getElementById("grid");
 
-// ---- AUDIO ELEMENTS ----
+// ================================================ AUDIO ELEMENTS ================================================
 
 // Background music
 const bgm = new Audio("mp3/bgm.mp3");
@@ -89,7 +89,7 @@ const gameOverSound = new Audio("mp3/game_over.mp3");
 const wrongSound = new Audio("mp3/wrong.mp3");
 const onHoverSound = new Audio("mp3/onhover.wav");
 
-// ---- GAME STATE VARIABLES ----
+// ================================================ GAME STATE VARIABLES ================================================
 
 // Timer variables
 let gameTime = 10;
@@ -128,7 +128,7 @@ let bonusDuration = 10;
 // FUNCTIONS
 // ================================================================================
 
-// ---- ENTRY POINT FUNCTION ----
+// ================================================ ENTRY POINT FUNCTION ================================================
 
 // Game entrance with circle animation and initialization
 function findTheTreasureEntrance() {
@@ -146,7 +146,7 @@ function findTheTreasureEntrance() {
     main();    // Initialize main game
 }
 
-// ---- CORE GAME FUNCTIONS ----
+// ================================================ CORE GAME FUNCTIONS ================================================
 
 // Main initialization - Sets up event listeners and starts menu music
 function main() {
@@ -156,7 +156,10 @@ function main() {
         circleEffect();
         setTimeout(menu, 700)
     }
-    nextRoundBtn.onclick = () => nextRound("new");
+    nextRoundBtn.onclick = function () {
+        circleEffect();
+        setTimeout(() => nextRound("new"), 700);
+    }
     retryRoundBtn.onclick = () => retry("new");
     leaderboardBtn.onclick = () => leaderboard("view");
     instructionBtn.onclick = () => instructions("view");
@@ -229,7 +232,7 @@ function startGame() {
     timerStart();
 }
 
-// ---- ROUND MANAGEMENT FUNCTIONS ----
+// ================================================ ROUND MANAGEMENT FUNCTIONS ================================================
 
 // Next round function - Handles progression to next round
 function nextRound(todo) {
@@ -239,13 +242,15 @@ function nextRound(todo) {
         gameInProgress = false;
         isBonusRound = false;
 
-        nextRoundCon.classList.remove("d-none");
-        gameOverCon.classList.add("d-none");
-        modalCon.classList.remove("d-none");
+        setTimeout(() => {
+            nextRoundCon.classList.remove("d-none");
+            gameOverCon.classList.add("d-none");
+            modalCon.classList.remove("d-none");
 
-        currentRoundEl.innerHTML = round;
-        currentScoreEl.innerHTML = score;
-        currentLifeEl.innerHTML = life;
+            currentRoundEl.innerHTML = round;
+            currentScoreEl.innerHTML = score;
+            currentLifeEl.innerHTML = life;
+        }, 700);
     } else if (todo === "new") {
         isBonusRound = false;
         nextRoundCon.classList.add("d-none");
@@ -260,6 +265,7 @@ function nextRound(todo) {
         difficulty();
         timeEl.innerHTML = gameTime + "s";
         grid.innerHTML = "";
+        setTimeout(() => statEffect(roundEl, `+1 Round`, "green"), 400);
         roundEl.innerHTML = round;
         selectionEl.innerHTML = selection + '/' + maxSelection;
         timerStart();
@@ -324,13 +330,15 @@ function retry(todo) {
         stopTimer();
         gameInProgress = false;
 
-        retryRoundCon.classList.remove("d-none");
-        gameOverCon.classList.add("d-none");
-        modalCon.classList.remove("d-none");
+        setTimeout(() => {
+            retryRoundCon.classList.remove("d-none");
+            gameOverCon.classList.add("d-none");
+            modalCon.classList.remove("d-none");
 
-        retryRoundEl.innerHTML = round;
-        retryScoreEl.innerHTML = score;
-        retryLifeEl.innerHTML = life;
+            retryRoundEl.innerHTML = round;
+            retryScoreEl.innerHTML = score;
+            retryLifeEl.innerHTML = life;
+        }, 700);
     } else if (todo === "new") {
         retryRoundCon.classList.add("d-none");
         modalCon.classList.add("d-none");
@@ -365,7 +373,7 @@ function gameOver() {
     leaderboard("update") // Update leaderboard with final score
 }
 
-// ---- GAME MECHANICS FUNCTIONS ----
+// ================================================ GAME MECHANICS FUNCTIONS ================================================
 
 // Create card function - Generates the game grid and handles click events
 function createCard() {
@@ -417,17 +425,8 @@ function createCard() {
                 let gainedXP = Math.floor(100 * comboMultiplier);
                 score += gainedXP;
 
-                // Floating combo text (visual feedback)
-                const floatText = document.createElement("span");
-                floatText.textContent = `🔥 +${gainedXP} XP (x${comboMultiplier.toFixed(1)})`;
-                floatText.style.position = "absolute";
-                floatText.style.color = "gold";
-                floatText.style.fontWeight = "bold";
-                floatText.style.transform = "translateY(-10px)";
-                floatText.style.transition = "0.5s ease-out";
-                card.appendChild(floatText);
-                setTimeout(() => floatText.style.opacity = "0", 300);
-                setTimeout(() => floatText.remove(), 800);
+                statEffect(scoreEl, `+${gainedXP} XP`, "green");
+                comboFunction(card);
 
                 scoreEl.innerHTML = score;
             } else if (extraLifePosition.includes(i)) {
@@ -437,10 +436,12 @@ function createCard() {
             } else if (extraXpPosition.includes(i)) {
                 card.style.backgroundImage = `url('images/xp.gif?${Date.now()}')`;
                 playExtraLifeSound();
-                score += 250;
+                score += 500;
+                statEffect(scoreEl, `+500 XP`, "green");
                 scoreEl.innerHTML = score;
             } else {
                 card.style.backgroundImage = `url('images/wrong.gif?${Date.now()}')`;
+                statEffect(selectionEl, `-1`, "red");
                 playWrongSound();
                 combo = 0;
                 comboMultiplier = 1;
@@ -474,6 +475,8 @@ function createBonusGrid() {
                 playCoinSound();
                 score += 150;
                 scoreEl.innerHTML = score;
+
+                comboFunction(card)
 
                 // small feedback
                 card.style.transition = "transform 0.1s ease";
@@ -554,17 +557,20 @@ function endBonusRound() {
 // Update life function - Modifies player life count
 function updateLife(change) {
     life += change;
+    if (change < 0) 
+        statEffect(lifeEl, `-1 Life`, "red");
+    else
+        statEffect(lifeEl, `+1 Life`, "green");
     lifeEl.innerHTML = life;
 }
 
-// ---- DIFFICULTY FUNCTIONS ----
+// ================================================ DIFFICULTY FUNCTIONS ================================================
 
 // Difficulty function - Adjusts game parameters based on current round
 function difficulty() {
     // Adjust difficulty based on round thresholds
     if (round <= world1) {
         // world 1: 3x3
-        circleEffect();
         boxCount = 9;
         grid.classList.remove("row-cols-5", "row-col-7");
         grid.classList.add("row-cols-4");
@@ -573,7 +579,6 @@ function difficulty() {
         gameTime = 10;
     } else if (round > world1 && round <= world2) {
         // world 2: 4x4
-        circleEffect();
         treasureCount = 3;
         maxSelection = 3;
         boxCount = 16;
@@ -595,7 +600,6 @@ function difficulty() {
         }, 500);
     } else {
         // later rounds: 5 columns (wider)
-        circleEffect();
         treasureCount = 4;
         maxSelection = 4;
         boxCount = 25;
@@ -605,7 +609,7 @@ function difficulty() {
     }
 }
 
-// ---- TIMER FUNCTIONS ----
+// ================================================ TIMER FUNCTIONS ================================================
 
 // Timer start function - Begins countdown for current round
 function timerStart() {
@@ -632,7 +636,7 @@ function stopTimer() {
     }
 }
 
-// ---- AUDIO FUNCTIONS ----
+// ================================================ AUDIO FUNCTIONS ================================================
 
 // Background music controls
 function playBGM() {
@@ -691,7 +695,7 @@ function onHoverSFX(){
     }
 }
 
-// ---- VISUAL EFFECTS FUNCTIONS ----
+// ================================================ VISUAL EFFECTS FUNCTIONS ================================================
 
 // Circle effect - Visual transition animation between worlds
 function circleEffect() {
@@ -724,7 +728,50 @@ function resetBackground() {
     mainCon.style.backgroundSize = "auto, auto, auto, 32px 32px";
 }
 
-// ---- USER INTERFACE FUNCTIONS ----
+function statEffect(El, text, color){
+    const statText = document.createElement("span");
+    statText.textContent = text;
+    statText.style.position = "absolute";
+    statText.style.left = "50%";
+    statText.style.top = "0";
+    statText.style.transform = "translate(-50%, -20px)";
+    statText.style.color = "transparent";                 
+    statText.style.webkitTextStroke = "1.5px " + color;   
+    statText.style.fontWeight = "900";
+    statText.style.fontSize = "20px";
+    statText.style.whiteSpace = "nowrap";
+    statText.style.pointerEvents = "none";               
+    statText.style.transition = "all 0.8s ease-out";
+    statText.style.opacity = "1";
+    El.parentElement.style.position = "relative"; 
+    El.parentElement.appendChild(statText);
+    requestAnimationFrame(() => {
+        statText.style.transform = "translate(-50%, -60px)";
+        statText.style.opacity = "0";
+    });
+    setTimeout(() => statText.style.opacity = "0", 300);
+    setTimeout(() => statText.remove(), 700);
+}
+
+function comboFunction(card){
+    // Floating combo text (visual feedback)
+    console.log("combo")
+    const comboEl = document.createElement("span");
+    comboEl.style.backgroundImage = `url('images/combo.gif?${Date.now()}')`;
+    comboEl.style.backgroundSize = "contain";
+    comboEl.style.backgroundRepeat = "no-repeat";
+    comboEl.style.width = "100px";
+    comboEl.style.height = "50px";
+    comboEl.style.pointerEvents = "none";               
+    comboEl.style.position = "absolute";
+    comboEl.style.transform = "translateY(10px)";
+    comboEl.style.transition = "0.5s ease-out";
+    card.appendChild(comboEl);
+    setTimeout(() => comboEl.style.opacity = "0", 300);
+    setTimeout(() => comboEl.remove(), 700);
+}
+
+// ================================================ USER INTERFACE FUNCTIONS ================================================
 
 // View instructions function - Shows game instructions (appears to be incomplete)
 function instructions(todo) {
@@ -796,7 +843,7 @@ function leaderboard(todo) {
     }
 }
 
-// ---- UTILITY FUNCTIONS ----
+// ================================================ UTILITY FUNCTIONS ================================================
 
 // Reset settings function - Resets game state variables
 function resetSettings(todo) {
