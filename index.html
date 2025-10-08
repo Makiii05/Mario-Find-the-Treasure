@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find The Treasure</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js" defer></script>
+    <link rel="icon" href="data:,">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous" defer></script>
+</head>
+<body class="d-flex align-items-center" style="font-family: 'Pixelify Sans'; font-optical-sizing: auto;">
+    <div class="overlay"></div>
+    <div id="find-the-treasure" class="bg-black text-light d-flex flex-column align-items-center justify-content-center position-absolute w-100 h-100">
+        <img src="images/title.gif" class="w-75" alt="">
+        <p class="fw-bolder mb-4 fs-6">Press spacebar to start the game!</p>
+    </div>
+    <div class="row w-100 m-0">
+        <div class="col-md-6">
+            <img src="images/title.gif" alt="title" class="w-100">
+        </div>
+        <div class="col-md-6">
+            <div class="w-auto h-100 p-3" id="main-con">
+                <!-- RUNNING -->
+                <div class="d-flex flex-column align-items-center justify-content-center d-none" id="running-con">
+                    <div class="d-flex justify-content-between w-100">
+                        <p>⌛<span id="time">10s</span></p>
+                        <p>🌟<span id="score">0</span>XP</p>
+                        <p>📍<span id="round">1</span></p>
+                        <p>👆<span id="selection">0</span></p>
+                        <p>💖<span id="life">0</span></p>
+                    </div>
+                    <div class="row row-cols-4 d-flex justify-content-center" id="grid">
+                    </div>
+                </div>
+
+                <!-- MENU -->
+                <div class="d-flex flex-column align-items-center gap-3 my-5" id="menu">
+                    <input class="form-control w-50 text-center border-0 bg-light fw-bolder" type="text" id="name-input" placeholder="Enter your name" maxlength="12">
+                    <button class="theme-btn border-radius w-50 fw-bolder" id="start-btn">START GAME</button>
+                    <button class="theme-btn border-radius w-50 fw-bolder" id="instruction-btn">INSTRUCTION</button>
+                    <button class="theme-btn border-radius w-50 fw-bolder" id="leaderboard-btn">LEADERBOARD</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="position-absolute bg-dark bg-opacity-75 w-100 h-100 d-flex justify-content-center align-items-center d-none" id="modal-con">
+        <div class="game-container w-25">
+            <!-- GAME OVER -->
+            <div class="d-flex flex-column align-items-center gap-1 my-5 d-none" id="game-over">
+                <h2 class="fw-bolder">GAME OVER</h2>
+                <p class="fw-bolder">📍<span id="final-round">0</span> Rounds</p>
+                <p class="fw-bolder">🌟<span id="final-score">0</span>XP</p>
+                <button class="theme-btn border-radius w-50 fw-bolder" id="restart-btn">RESTART</button>
+            </div>
+            <!-- NEXT ROUND -->
+            <div class="d-flex flex-column align-items-center gap-1 my-5 d-none" id="next-round">
+                <h2 class="fw-bolder">NEXT ROUND</h2>
+                <p class="fw-bolder">📍<span id="current-round">0</span> Rounds</p>
+                <p class="fw-bolder">🌟<span id="current-score">0</span>XP</p>
+                <p class="fw-bolder">💖<span id="current-life">0</span> Lives</p>
+                <button class="theme-btn w-50 fw-bolder" id="next-round-btn">PROCEED</button>
+            </div>
+            <!-- RETRY  -->
+            <div class="d-flex flex-column align-items-center gap-1 my-5 d-none" id="retry-round-con">
+                <h2 class="fw-bolder">NICE TRY</h2>
+                <p class="fw-bolder">📍<span id="retry-round">0</span> Rounds</p>
+                <p class="fw-bolder">🌟<span id="retry-score">0</span>XP</p>
+                <p class="fw-bolder">💖<span id="retry-life">0</span> Lives</p>
+                <button class="theme-btn w-50 fw-bolder" id="retry-round-btn">RETRY</button>
+            </div>
+            <!-- INSTRUCTION  -->
+            <div class="bg-dark bg-opacity-75 d-none" id="instruction-con">
+                <div class="d-flex">
+                    <h2 class="fw-bolder p-2">📜 How to Play: Guess the Treasure</h2>
+                    <span class="ms-auto mx-2 fs-4 btn text-light" type="button" id="close-instruction">&times;</span>
+                </div>
+                <div class="border-top p-3 text-light">
+                    <h5 class="fw-bolder">🎮 Game Objective</h5>
+                    <p>Your mission is to <b>find hidden treasures</b> inside mystery boxes before the time runs out. Each treasure earns you XP (score). Survive as many rounds as possible to set a high score!</p>
+                    
+                    <h5 class="fw-bolder mt-3">🕹️ Controls</h5>
+                    <ul>
+                        <li><b>Click</b> on a box to open it.</li>
+                        <li>You have a limited number of selections per round (shown at the top as 👆).</li>
+                    </ul>
+                    
+                    <h5 class="fw-bolder mt-3">⏳ Game Rules</h5>
+                    <ul>
+                        <li><b>Time Limit:</b> Each round has a timer (⌛). When it reaches 0, the round ends.</li>
+                        <li><b>Selections:</b> You only get a set number of clicks per round.</li>
+                        <li><b>Lives (💖):</b> Start with 2 lives. Wrong guesses or failing a round cost 1 life. Collect <b>1UP</b> to gain more.</li>
+                        <li><b>Scoring (🌟 XP):</b> Treasure = +100 XP, Bonus XP = +250 XP.</li>
+                    </ul>
+                    
+                    <h5 class="fw-bolder mt-3">🌍 Worlds & Difficulty</h5>
+                    <ul>
+                        <li><b>World 1 (Rounds 1–4):</b> 3x3 grid, 2 treasures, 2 selections, 10s timer.</li>
+                        <li><b>World 2 (Rounds 5–9):</b> 4x4 grid, 3 treasures, 3 selections, 15s timer.</li>
+                        <li><b>World 3 (Rounds 10+):</b> 5x5 grid, 4 treasures, 4 selections, 18s timer.</li>
+                    </ul>
+                    
+                    <h5 class="fw-bolder mt-3">🚨 End of Game</h5>
+                    <p>The game ends when you lose all lives. Your score and round will be saved to the <b>Leaderboard</b>.</p>
+                </div>
+            </div>
+            <!-- LEADERBOARD -->
+            <div class="bg-dark bg-opacity-75 d-none" id="leaderboard-con">
+                <div class="d-flex">
+                    <h2 class="fw-bolder p-2">LEADERBOARD</h2>
+                    <span class="ms-auto mx-2 fs-4 btn text-light" type="button" id="close-leaderboard">&times;</span>
+                </div>
+                <div id="leaderboard-entries" class="border-top p-3">
+                </div>
+                <div class="d-flex fw-bolder shadow-top px-3 pt-3" id="current-user-con">
+                    17. <p class="ms-2 text-warning">PlayerName - 0XP</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

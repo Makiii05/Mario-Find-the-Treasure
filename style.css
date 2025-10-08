@@ -1,0 +1,138 @@
+body{
+    
+    background-image: url("images/bg1.gif");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100vh;
+    margin: 0;
+}
+.game-container {
+    border-bottom: 10px solid #6e4616;
+    border-right: 10px solid #6e4616;
+    border-top: 10px solid #ecb34f;
+    border-left: 10px solid #ecb34f;
+    box-shadow: 5px 5px 0px black, inset 0 0 10px black;
+    background-image: url("images/world1bg.png");
+    background-size: cover;
+    transition: background 0.5s ease-in-out;
+    color: white;
+}
+
+#grid{
+    width: 50%;
+}
+
+#grid .col {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url("images/box.png");
+    background-size: contain; /* fit the whole image */
+    background-repeat: no-repeat; /* prevent tiling */
+    background-position: center; /* keep it centered */
+}
+
+#grid .col:hover {
+    transition: transform 0.3s ease;
+    background-image: url("images/box_on_hover.gif");
+    cursor: url("images/hover.cur"), auto;
+}
+
+#grid .col:active {
+  animation: bounceBlock 0.3s ease;
+    cursor: url("images/click.cur"), auto;
+}
+
+.theme-btn{
+    color: white;
+    text-shadow: 5px 5px 0px 20px black;
+    background-color: #cb8e31;
+    border-bottom: 10px solid #6e4616;
+    border-right: 10px solid #6e4616;
+    border-top: 10px solid #ecb34f;
+    border-left: 10px solid #ecb34f;
+    box-shadow: 5px 5px 0px black;
+}
+
+.theme-btn:hover{
+    background-color: #b7762c;
+    color: white;
+    text-shadow: 5px 5px 0px 20px black;
+}
+
+/* center */
+#find-the-treasure{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    padding: 1rem 2rem;
+    z-index: 10000;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounceBlock {
+  0%   { transform: translateY(0); }
+  30%  { transform: translateY(-10px); } /* move up */
+  60%  { transform: translateY(5px); }  /* move slightly down */
+  100% { transform: translateY(0); }     /* back to normal */
+}
+
+#main-con {
+    color: white;
+    border-bottom: 10px solid #6e4616;
+    border-right: 10px solid #6e4616;
+    border-top: 10px solid #ecb34f;
+    border-left: 10px solid #ecb34f;
+    box-shadow: 5px 5px 0px black, inset 0 0 10px black;
+
+    background: 
+    radial-gradient(ellipse at 30% 20%, rgba(255, 255, 255, 0.3) 0%, transparent 50%), 
+    radial-gradient(ellipse at 70% 30%, rgba(255, 255, 255, 0.2) 0%, transparent 60%), 
+    linear-gradient(180deg,  #1E90FF 0%, #87CEEB 100%);
+
+    /* background: 
+    radial-gradient(ellipse at 20% 30%, rgba(80, 243, 255, 0.25) 0%, transparent 50%), 
+    radial-gradient(ellipse at 70% 60%, rgba(100, 237, 255, 0.2) 0%, transparent 60%), 
+    linear-gradient(180deg, #0a303a 0%, #002122 100%); */
+}
+
+#current-user-con {
+    background: linear-gradient(to right, rgb(31, 31, 31), rgba(0, 0, 0, 0.1));
+}
+
+/* transition */
+.overlay {
+    --circle-size: 800px; /* default size */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: black;
+    z-index: 999;
+    pointer-events: none;
+
+    -webkit-mask: radial-gradient(circle var(--circle-size) at center, transparent 99%, black 100%);
+    -webkit-mask-composite: destination-out;
+    mask: radial-gradient(circle var(--circle-size) at center, transparent 99%, black 100%);
+    mask-composite: exclude;
+
+    transition: --circle-size 1s ease-in-out;
+  }
+
+@media (max-width: 700px) {
+    .game-container{
+        max-height: 600px;
+        overflow-y: auto;
+        font-size: clamp(50%,75%,100%);
+        min-width: 350px;
+    }
+    #grid{
+        min-width: 300px;
+        padding: auto;
+    }
+}
