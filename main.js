@@ -458,7 +458,6 @@ function createCard() {
 // Create bonus card function
 function createBonusGrid() {
     treasurePosition = ensureUniqueRandom(treasureCount, boxCount);
-
     for (let i = 0; i < boxCount; i++) {
         const card = document.createElement("div");
         card.classList.add("col", "m-1");
@@ -540,17 +539,8 @@ function endBonusRound() {
     stopTimer();
     isBonusRound = false;
     gameInProgress = false;
-    grid.innerHTML = "";
-    mainCon.style.background = ""; // reset background
-    alert("Bonus Round Over! +XP earned!");
-
-    // Continue to next real round
     round++;
-    difficulty();
-    resetSettings("next");
-    timeEl.innerHTML = gameTime + "s";
-    createCard();
-    timerStart();
+    nextRound("display");
 }
 
 
@@ -690,7 +680,6 @@ function onHoverSFX(){
     for (let i = 0; i < allBtn.length; i++) {
         allBtn[i].addEventListener("mouseover", () => {
             playOnHoverSound();
-            console.log("hover");
         });
     }
 }
@@ -755,7 +744,6 @@ function statEffect(El, text, color){
 
 function comboFunction(card){
     // Floating combo text (visual feedback)
-    console.log("combo")
     const comboEl = document.createElement("span");
     comboEl.style.backgroundImage = `url('images/combo.gif?${Date.now()}')`;
     comboEl.style.backgroundSize = "contain";
