@@ -472,7 +472,13 @@ function createBonusGrid() {
             if (treasurePosition.includes(i)) {
                 card.style.backgroundImage = `url('images/coin.gif?${Date.now()}')`;
                 playCoinSound();
-                score += 150;
+                
+                combo++;
+                comboMultiplier = 1 + combo * 0.5; // e.g. combo=1→1.5x, combo=2→2x, etc.
+                let gainedXP = Math.floor(100 * comboMultiplier);
+                score += gainedXP;
+
+                statEffect(scoreEl, `+${gainedXP} XP`, "green");
                 scoreEl.innerHTML = score;
 
                 comboFunction(card)
