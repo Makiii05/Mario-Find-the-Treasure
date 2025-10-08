@@ -564,6 +564,7 @@ function difficulty() {
     // Adjust difficulty based on round thresholds
     if (round <= world1) {
         // world 1: 3x3
+        circleEffect();
         boxCount = 9;
         grid.classList.remove("row-cols-5", "row-col-7");
         grid.classList.add("row-cols-4");
@@ -572,8 +573,7 @@ function difficulty() {
         gameTime = 10;
     } else if (round > world1 && round <= world2) {
         // world 2: 4x4
-        if(round == world1+1)
-            circleEffect();
+        circleEffect();
         treasureCount = 3;
         maxSelection = 3;
         boxCount = 16;
@@ -595,8 +595,7 @@ function difficulty() {
         }, 500);
     } else {
         // later rounds: 5 columns (wider)
-        if(round == world2+1)
-            circleEffect();
+        circleEffect();
         treasureCount = 4;
         maxSelection = 4;
         boxCount = 25;
