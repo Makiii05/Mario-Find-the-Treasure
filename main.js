@@ -574,19 +574,20 @@ function difficulty() {
         boxCount = 16;
         grid.classList.remove("row-cols-4", "row-cols-6");
         grid.classList.add("row-cols-5");
+        selectionEl.innerHTML = selection + "/" + maxSelection;
+
+        bodyCon.style.backgroundImage = "url('images/bg2.gif')";
+        gameCon.style.background = "url('images/world2bg.png')";
+        gameCon.style.backgroundSize = "cover";
+        mainCon.style.background = `
+        radial-gradient(ellipse at 20% 30%, rgba(80, 243, 255, 0.25) 0%, transparent 50%), 
+        radial-gradient(ellipse at 70% 60%, rgba(100, 237, 255, 0.2) 0%, transparent 60%), 
+        linear-gradient(180deg, #0a303a 0%, #002122 100%)`;
+        mainCon.style.backgroundRepeat = "no-repeat, no-repeat, no-repeat, repeat";
+        mainCon.style.backgroundSize = "auto, auto, auto, 32px 32px";
 
         setTimeout(() => {
             gameTime = 15;
-            selectionEl.innerHTML = selection + "/" + maxSelection;
-            bodyCon.style.backgroundImage = "url('images/bg2.gif')";
-            gameCon.style.background = "url('images/world2bg.png')";
-            gameCon.style.backgroundSize = "cover";
-            mainCon.style.background = `
-          radial-gradient(ellipse at 20% 30%, rgba(80, 243, 255, 0.25) 0%, transparent 50%), 
-          radial-gradient(ellipse at 70% 60%, rgba(100, 237, 255, 0.2) 0%, transparent 60%), 
-          linear-gradient(180deg, #0a303a 0%, #002122 100%)`;
-            mainCon.style.backgroundRepeat = "no-repeat, no-repeat, no-repeat, repeat";
-            mainCon.style.backgroundSize = "auto, auto, auto, 32px 32px";
         }, 500);
     } else {
         // later rounds: 5 columns (wider)
@@ -595,7 +596,21 @@ function difficulty() {
         boxCount = 25;
         grid.classList.remove("row-cols-4", "row-cols-5");
         grid.classList.add("row-cols-6");
-        setTimeout(() => { gameTime = 18; }, 500);
+
+        selectionEl.innerHTML = selection + "/" + maxSelection;
+        bodyCon.style.backgroundImage = "url('images/bg2.gif')";
+        gameCon.style.background = "url('images/world2bg.png')";
+        gameCon.style.backgroundSize = "cover";
+        mainCon.style.background = `
+        radial-gradient(ellipse at 20% 30%, rgba(80, 243, 255, 0.25) 0%, transparent 50%), 
+        radial-gradient(ellipse at 70% 60%, rgba(100, 237, 255, 0.2) 0%, transparent 60%), 
+        linear-gradient(180deg, #0a303a 0%, #002122 100%)`;
+        mainCon.style.backgroundRepeat = "no-repeat, no-repeat, no-repeat, repeat";
+        mainCon.style.backgroundSize = "auto, auto, auto, 32px 32px"; 
+
+        setTimeout(() => { 
+            gameTime = 18;
+        }, 500);
     }
 }
 
@@ -921,3 +936,5 @@ function cheatCode() {
         console.log("Row " + (r + 1) + ":", row);
     }
 }
+
+console.log("Script loaded: main.js");
