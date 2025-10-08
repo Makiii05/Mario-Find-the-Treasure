@@ -53,67 +53,100 @@
     <div class="position-absolute bg-dark bg-opacity-75 w-100 h-100 d-flex justify-content-center align-items-center d-none" id="modal-con">
         <div class="game-container w-25">
             <!-- GAME OVER -->
-            <div class="d-flex flex-column align-items-center gap-1 my-5 d-none" id="game-over">
-                <h2 class="fw-bolder">GAME OVER</h2>
+            <div class="bg-dark bg-opacity-75 d-flex flex-column align-items-center gap-1 py-5 d-none" id="game-over">
+                <h2 class="fw-bolder text-warning">GAME OVER</h2>
                 <p class="fw-bolder">📍<span id="final-round">0</span> Rounds</p>
                 <p class="fw-bolder">🌟<span id="final-score">0</span>XP</p>
                 <button class="theme-btn border-radius w-50 fw-bolder" id="restart-btn">RESTART</button>
             </div>
             <!-- NEXT ROUND -->
-            <div class="d-flex flex-column align-items-center gap-1 my-5 d-none" id="next-round">
-                <h2 class="fw-bolder">NEXT ROUND</h2>
+            <div class="bg-dark bg-opacity-75 d-flex flex-column align-items-center gap-1 py-5 d-none" id="next-round">
+                <h2 class="fw-bolder text-warning">NEXT ROUND</h2>
                 <p class="fw-bolder">📍<span id="current-round">0</span> Rounds</p>
                 <p class="fw-bolder">🌟<span id="current-score">0</span>XP</p>
                 <p class="fw-bolder">💖<span id="current-life">0</span> Lives</p>
                 <button class="theme-btn w-50 fw-bolder" id="next-round-btn">PROCEED</button>
             </div>
             <!-- RETRY  -->
-            <div class="d-flex flex-column align-items-center gap-1 my-5 d-none" id="retry-round-con">
-                <h2 class="fw-bolder">NICE TRY</h2>
+            <div class="bg-dark bg-opacity-75 d-flex flex-column align-items-center gap-1 py-5 d-none" id="retry-round-con">
+                <h2 class="fw-bolder text-warning">NICE TRY</h2>
                 <p class="fw-bolder">📍<span id="retry-round">0</span> Rounds</p>
                 <p class="fw-bolder">🌟<span id="retry-score">0</span>XP</p>
                 <p class="fw-bolder">💖<span id="retry-life">0</span> Lives</p>
                 <button class="theme-btn w-50 fw-bolder" id="retry-round-btn">RETRY</button>
             </div>
-            <!-- INSTRUCTION  -->
-            <div class="bg-dark bg-opacity-75 d-none" id="instruction-con">
-                <div class="d-flex">
-                    <h2 class="fw-bolder p-2">📜 How to Play: Guess the Treasure</h2>
-                    <span class="ms-auto mx-2 fs-4 btn text-light" type="button" id="close-instruction">&times;</span>
-                </div>
-                <div class="border-top p-3 text-light">
-                    <h5 class="fw-bolder">🎮 Game Objective</h5>
-                    <p>Your mission is to <b>find hidden treasures</b> inside mystery boxes before the time runs out. Each treasure earns you XP (score). Survive as many rounds as possible to set a high score!</p>
-                    
-                    <h5 class="fw-bolder mt-3">🕹️ Controls</h5>
-                    <ul>
-                        <li><b>Click</b> on a box to open it.</li>
-                        <li>You have a limited number of selections per round (shown at the top as 👆).</li>
-                    </ul>
-                    
-                    <h5 class="fw-bolder mt-3">⏳ Game Rules</h5>
-                    <ul>
-                        <li><b>Time Limit:</b> Each round has a timer (⌛). When it reaches 0, the round ends.</li>
-                        <li><b>Selections:</b> You only get a set number of clicks per round.</li>
-                        <li><b>Lives (💖):</b> Start with 2 lives. Wrong guesses or failing a round cost 1 life. Collect <b>1UP</b> to gain more.</li>
-                        <li><b>Scoring (🌟 XP):</b> Treasure = +100 XP, Bonus XP = +250 XP.</li>
-                    </ul>
-                    
-                    <h5 class="fw-bolder mt-3">🌍 Worlds & Difficulty</h5>
-                    <ul>
-                        <li><b>World 1 (Rounds 1–4):</b> 3x3 grid, 2 treasures, 2 selections, 10s timer.</li>
-                        <li><b>World 2 (Rounds 5–9):</b> 4x4 grid, 3 treasures, 3 selections, 15s timer.</li>
-                        <li><b>World 3 (Rounds 10+):</b> 5x5 grid, 4 treasures, 4 selections, 18s timer.</li>
-                    </ul>
-                    
-                    <h5 class="fw-bolder mt-3">🚨 End of Game</h5>
-                    <p>The game ends when you lose all lives. Your score and round will be saved to the <b>Leaderboard</b>.</p>
-                </div>
+            <!-- INSTRUCTION -->
+            <div class="bg-dark bg-opacity-75 d-none text-warning" id="instruction-con">
+            <div class="d-flex align-items-center">
+                <h2 class="fw-bolder p-2 text-warning">📜 How to Play: Find the Treasure</h2>
+                <span class="ms-auto mx-2 fs-4 btn text-light" type="button" id="close-instruction">&times;</span>
             </div>
+
+            <!-- Scrollable content -->
+            <div class="border-top p-3 text-light instruction-content">
+                <h5 class="fw-bolder">🎮 Game Objective</h5>
+                <p>
+                    Your goal is to <b>find hidden treasures</b> inside mystery boxes before time runs out.
+                    Each treasure earns you <b>XP</b>. Advance through worlds and score as high as possible!
+                </p>
+
+                <h5 class="fw-bolder mt-3">🕹️ Controls</h5>
+                <ul>
+                    <li><b>Click</b> on a box to reveal what’s inside.</li>
+                    <li>The number of clicks you can make per round is shown beside the hand icon (👆).</li>
+                    <li>Press the <b>Spacebar</b> to start the game quickly.</li>
+                </ul>
+
+                <h5 class="fw-bolder mt-3">⏳ Game Rules</h5>
+                <ul>
+                    <li><b>Timer (⌛):</b> Each round has a limited time. When it reaches 0, the round ends.</li>
+                    <li><b>Selections:</b> You can only click a limited number of boxes per round.</li>
+                    <li><b>Lives (💖):</b> Start with 2 lives. Lose 1 life for wrong guesses or timeouts. Collect <b>1UP</b> boxes to regain a life.</li>
+                    <li><b>Scoring (🌟 XP):</b> 
+                        <ul>
+                        <li>Treasure = +100 XP × Combo Multiplier</li>
+                        <li>Bonus XP Box = +500 XP</li>
+                        <li>Combo Multiplier increases with consecutive correct treasures!</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h5 class="fw-bolder mt-3">🎯 Bonus Round</h5>
+                <p>
+                    Every few worlds, a <b>Bonus Round</b> appears! During it:
+                </p>
+                <ul>
+                    <li>You have <b>10 seconds</b> to earn as much XP as possible.</li>
+                    <li>No click limits — tap as fast as you can!</li>
+                    <li>Coins give XP instantly, and combos keep your momentum.</li>
+                    <li>Background turns gold to indicate bonus mode.</li>
+                </ul>
+
+                <h5 class="fw-bolder mt-3">🌍 Worlds & Difficulty</h5>
+                <ul>
+                    <li><b>World 1 (Rounds 1–4):</b> 3x3 grid, 2 treasures, 2 selections, 10s timer.</li>
+                    <li><b>World 2 (Rounds 5–9):</b> 4x4 grid, 3 treasures, 3 selections, 15s timer.</li>
+                    <li><b>World 3 (Rounds 10+):</b> 5x5 grid, 4 treasures, 4 selections, 18s timer.</li>
+                </ul>
+
+                <h5 class="fw-bolder mt-3">🏅 Leaderboard</h5>
+                <p>
+                    When the game ends, your <b>name</b>, <b>round</b>, and <b>XP</b> are saved locally.
+                    Only your best score per name is recorded.
+                </p>
+
+                <h5 class="fw-bolder mt-3">🚨 End of Game</h5>
+                <p>
+                    The game ends when you lose all lives. Your final stats are shown with options to retry or restart.
+                    Try to reach further worlds and higher combos for massive XP gains!
+                </p>
+            </div>
+            </div>
+
             <!-- LEADERBOARD -->
-            <div class="bg-dark bg-opacity-75 d-none" id="leaderboard-con">
+            <div class="bg-dark bg-opacity-75 d-none " id="leaderboard-con">
                 <div class="d-flex">
-                    <h2 class="fw-bolder p-2">LEADERBOARD</h2>
+                    <h2 class="fw-bolder p-2 text-warning">LEADERBOARD</h2>
                     <span class="ms-auto mx-2 fs-4 btn text-light" type="button" id="close-leaderboard">&times;</span>
                 </div>
                 <div id="leaderboard-entries" class="border-top p-3">
